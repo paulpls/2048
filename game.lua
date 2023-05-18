@@ -37,17 +37,11 @@ Game.init = function (self, gamedata, sizeX, sizeY, margin, bg)
         self.sizeY  = sizeY  or Game.gridSizeY
         self.margin = margin or Game.margin
         self.full   = false
-        --  Get rendering parameters based on window size
-        self:refresh()
-        --  Build the grid
-        self.grid   = {}
-        for y=1, self.sizeY do self.grid[y] = {} end
+        --  Start a new game
+        self:restart()
     else
         --  TODO Load previous gamedata from file
     end
-    --  Spawn two random squares
-    self:spawn()
-    self:spawn()
 end
 
 
@@ -80,6 +74,20 @@ Game.refresh = function (self)
     self.cY     = math.floor(wH / 2)
     self.oX     = self.cX - math.floor((self.sqSize * self.sizeX) / 2)
     self.oY     = self.cY - math.floor((self.sqSize * self.sizeY) / 2)
+end
+
+
+
+Game.restart = function (self)
+    --
+    --  Completely restart the game
+    --
+    self.grid = {}
+    for y=1, self.sizeY do self.grid[y] = {} end
+    self:refresh()
+    --  Spawn two random squares
+    self:spawn()
+    self:spawn()
 end
 
 

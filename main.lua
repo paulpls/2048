@@ -52,9 +52,11 @@ love.keypressed = function (key)
     --
     if key == "escape" or key == "q" then
         love.event.quit()
-    else
+    elseif key == "f" then
         game.fs = not game.fs
         love.window.setFullscreen(game.fs)
+    elseif key == "r" then
+        game:restart()
     end
 end
 

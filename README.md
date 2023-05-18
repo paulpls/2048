@@ -30,7 +30,8 @@ Clone of the [original](https://github.com/gabrielecirulli/2048) built from scra
 ## Controls
 | Input      | Description  |
 |:----------:|:-------------|
-| arrow keys | Move squares |
+| Arrow keys | Move squares |
+| f          | Fullscreen   |
 | p          | Pause        |
 | r          | Restart      |
 | q, ESC     | Quit         |
