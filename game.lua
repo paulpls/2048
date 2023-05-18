@@ -111,13 +111,18 @@ end
 
 
 Game.update = function (self, dt)
+    --
     --  Update square size
+    --
     self:refresh()
 end
 
 
 
 Game.draw = function (self)
+    --
+    --  Draw the grid
+    --
     for y=1, self.sizeY do
         for x=1, self.sizeX do
             --  Get coords and dimensions
