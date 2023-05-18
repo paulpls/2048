@@ -98,12 +98,12 @@ Game.spawn = function (self, n)
     --
     if not self.full then
         --  Randomize new value and coordinates
-        local n      = n or 2 * math.random(1, 2)
-        local x,y    = math.random(1, self.sizeX), math.random(1, self.sizeY)
-        repeat x,y   = math.random(1, self.sizeX), math.random(1, self.sizeY) until not self.grid[y][x]
+        local n    = n or 2 * math.random(1, 2)
+        local x,y  = math.random(1, self.sizeX), math.random(1, self.sizeY)
+        repeat x,y = math.random(1, self.sizeX), math.random(1, self.sizeY) until not self.grid[y][x]
         --  Create a new square
-        local sqX    = self.oX + ((x-1) * self.sqSize)
-        local sqY    = self.oY + ((y-1) * self.sqSize)
+        local sqX  = self.oX + ((x-1) * self.sqSize)
+        local sqY  = self.oY + ((y-1) * self.sqSize)
         self.grid[y][x] = Square:new(n)
     end
 end
@@ -127,7 +127,7 @@ Game.draw = function (self)
             love.graphics.setColor(self.bg)
             love.graphics.rectangle("fill", oX, oY, w, h)
             --  Draw squares
-            local sq = self.grid[y][x]
+            local sq    = self.grid[y][x]
             if sq then
                 sq:draw(oX, oY, w, h)
             end
