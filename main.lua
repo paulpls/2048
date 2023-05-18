@@ -24,12 +24,19 @@ local Game = require("game")
 
 
 
+--
+--  Locals
+--
+local fullscreen = false
+
+
+
 love.load = function (dt)
     --
     --  Load a new game
     --
-    game    = Game:new()
-    game.fs = false
+    game = Game:new()
+    fs = false
 end
 
 
@@ -53,8 +60,8 @@ love.keypressed = function (key)
     if key == "escape" or key == "q" then
         love.event.quit()
     elseif key == "f" then
-        game.fs = not game.fs
-        love.window.setFullscreen(game.fs)
+        fullscreen = not fullscreen
+        love.window.setFullscreen(fullscreen)
     elseif key == "r" then
         game:restart()
     end
