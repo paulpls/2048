@@ -10,7 +10,7 @@ Square.init = function (self, n)
     --
     --  Initialize a new square with its value
     --
-    self.n = n
+    self.n = n or 0
 end
 
 
@@ -19,8 +19,10 @@ Square.draw = function (self, x, y, w, h)
     --
     --  Draw the square as specified
     --
-    love.graphics.setColor(color(self.n))
-    love.graphics.rectangle("fill", x, y, w, h)
+    if self.n ~= 0 then
+        love.graphics.setColor(color(self.n))
+        love.graphics.rectangle("fill", x, y, w, h)
+    end
 end
 
 

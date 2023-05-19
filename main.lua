@@ -59,9 +59,20 @@ love.keypressed = function (key)
     --
     if key == "escape" or key == "q" then
         love.event.quit()
+    --  Move the grid
+    elseif key == "up" then
+        game:move("up")
+    elseif key == "down" then
+        game:move("down")
+    elseif key == "left" then
+        game:move("left")
+    elseif key == "right" then
+        game:move("right")
+    --  Toggle fullscreen
     elseif key == "f" then
         fullscreen = not fullscreen
         love.window.setFullscreen(fullscreen)
+    --  Restart
     elseif key == "r" then
         game:restart()
     end
