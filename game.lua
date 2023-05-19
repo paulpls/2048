@@ -116,6 +116,7 @@ Game.spawn = function (self, x, y, n)
     local g = self.grid
     local s = self.size
     g[y][x] = Square:new(n)
+
     --  Reset grid
     self.grid = g
 end
@@ -162,6 +163,15 @@ Game.shift = function (self, dir)
         return t
     end
 
+    --  Copy the original grid
+    local og = {}
+    for y=1, s do
+        og[y] = {}
+        for x=1, s do
+            og[y][x] = g[y][x]
+        end
+    end
+
     --  Move and combine squares
     local rev = false
     if dir == "left" or dir == "right" then
@@ -172,6 +182,7 @@ Game.shift = function (self, dir)
                 local sq = g[y][x]
                 if sq.n ~= 0 then table.insert(t, sq) end
             end
+            --  Combine squares and set movement flag
             t = combine(t, rev)
             t = fill(t, rev)
             g[y] = t
@@ -184,14 +195,24 @@ Game.shift = function (self, dir)
                 local sq = g[y][x]
                 if sq.n ~= 0 then table.insert(t, sq) end
             end
+            --  Combine squares and set movement flag
             t = combine(t, rev)
             t = fill(t, rev)
             for y=1, s do g[y][x] = t[y] end
         end
     end
 
-    --  Reset grid
+    --  Reset grid and compare it to the original
     self.grid = g
+    --  Return true if grids are not identical
+    for y=1, s do
+        for x=1, s do
+            if g[y][x].n ~= og[y][x].n then
+                return true
+            end
+        end
+    end
+    return false
 end
 
 
@@ -203,21 +224,25 @@ Game.move = function (self, dir)
     --
     local g = self.grid
     local s = self.size
+
     --  Shift squares
-    self:shift(dir)
-    --  Add empty squares to list
-    local empty = {}
-    for y=1, s do
-        for x=1, s do
-            if g[y][x].n == 0 then
-                table.insert(empty, {["x"]=x, ["y"]=y})
+    local mv = self:shift(dir)
+
+    --  Add empty squares to list if any movements made
+    if mv then
+        local empty = {}
+        for y=1, s do
+            for x=1, s do
+                if g[y][x].n == 0 then
+                    table.insert(empty, {["x"]=x, ["y"]=y})
+                end
             end
         end
-    end
-    --  Spawn a new square in empty space
-    if #empty > 0 then
-        local sq = empty[math.random(1, #empty)]
-        self:spawn(sq.x, sq.y)
+        --  Spawn a new square in empty space
+        if #empty > 0 then
+            local sq = empty[math.random(1, #empty)]
+            self:spawn(sq.x, sq.y)
+        end
     end
 end
 
