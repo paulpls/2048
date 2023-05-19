@@ -84,7 +84,7 @@ love.quit = function ()
     --
     --  Girl, bye...
     --
-    local msg = "Bye, Felicia"
+    local msg = "Your score: "..game.score
     print("\n"..msg)
 end
 

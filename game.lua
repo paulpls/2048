@@ -33,7 +33,6 @@ Game.init = function (self, gamedata, size, margin, bg)
         --  Start a new game with provided params or game defaults
         self.size   = size   or Game.gridSize
         self.margin = margin or Game.margin
-        self.full   = false
         --  Start a new game
         self:restart()
     else
@@ -88,6 +87,8 @@ Game.restart = function (self)
     self:refresh()
     --  Reset grid
     self.grid = g
+    --  Reset score
+    self.score = 0
     --  Spawn two random squares
     local x1,y1  = math.random(1, s), math.random(1, s)
     local x2,y2  = math.random(1, s), math.random(1, s)
@@ -118,8 +119,6 @@ Game.shift = function (self, dir)
     --
     --  Shift the tiles to fill any empty space
     --
-    --  TODO add combined values to score
-    --
     local g = self.grid
     local s = self.size
 
@@ -147,6 +146,7 @@ Game.shift = function (self, dir)
                 if (not rev and i + d <= #t) or (rev and i+d >= 1) then
                     local nextSq = t[i+d]
                     if t[i].n == nextSq.n then
+                        self.score = self.score + t[i].n + t[i+d].n
                         t[i].n = t[i].n + table.remove(t, i+d).n
                     end
                 end
@@ -194,9 +194,24 @@ Game.move = function (self, dir)
     --  1)  Shift tiles in the specified direction, combining as necessary
     --  2)  Spawn a new tile if there is empty space
     --
+    local g = self.grid
+    local s = self.size
+    --  Shift squares
     self:shift(dir)
-    --  TODO Spawn a new tile in empty space
-    
+    --  Add empty squares to list
+    local empty = {}
+    for y=1, s do
+        for x=1, s do
+            if g[y][x].n == 0 then
+                table.insert(empty, {["x"]=x, ["y"]=y})
+            end
+        end
+    end
+    --  Spawn a new square in empty space
+    if #empty > 0 then
+        local sq = empty[math.random(1, #empty)]
+        self:spawn(sq.x, sq.y)
+    end
 end
 
 
