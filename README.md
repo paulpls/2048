@@ -1,3 +1,7 @@
+![screenshot](assets/img/screenshot.png)
+
+
+
 # 2048
 Author: [paulpls](https://github.com/paulpls)  
 License: [GPL 3.0](LICENSE.md)  
