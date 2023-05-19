@@ -4,14 +4,13 @@
 local Font = Class:new()
 Font._path   = "assets/font/pixel.png"
 Font._glyphs = " ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
-Font._w      = 11
-Font._h      = 16
-Font._k      = 2
-Font._bold   = 2
+Font._w      = 16   --  Character width
+Font._h      = 20   --  Character height
+Font._k      = 2    --  Kerning
 
 
 
-function Font:init(path, glyphs, w, h, k, bold)
+function Font:init(path, glyphs, w, h, k)
     --
     --  Initialize font
     --
@@ -20,7 +19,6 @@ function Font:init(path, glyphs, w, h, k, bold)
     self.w      = w      or Font._w
     self.h      = h      or Font._h
     self.k      = k      or Font._k
-    self.bold   = bold  or Font._bold
     --  Configure font face
     self.face   = love.graphics.newImageFont(self.path, self.glyphs)
 end
