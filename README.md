@@ -9,7 +9,7 @@ License: [GPL 3.0](LICENSE.md)
 
 
 ## About
-Clone of the [original](https://github.com/gabrielecirulli/2048) built from scratch for the LÖVE 2D framework.  
+Clone of [2048](https://github.com/gabrielecirulli/2048) built from scratch for the LÖVE 2D framework.  
 
 
 
