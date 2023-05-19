@@ -17,12 +17,14 @@ end
 
 Square.draw = function (self, x, y, w, h)
     --
-    --  Draw the square as specified
+    --  Draw the square
     --
-    if self.n ~= 0 then
+    if self.n == 0 then
+        love.graphics.setColor(color("sq"))
+    else
         love.graphics.setColor(color(self.n))
-        love.graphics.rectangle("fill", x, y, w, h)
     end
+    love.graphics.rectangle("fill", x, y, w, h)
 end
 
 

@@ -1,17 +1,15 @@
 --
 --  Gameplay controller
 --
-local Game  = Class:new()
+local Game = Class:new()
 
 
 
 --
 --  Grid defaults
 --
-Game.bgColor    = {1, 1, 1, 0.15}  --  Background color
-Game.fontColor  = {1, 1, 1}        --  Font color
-Game.gridSize   = 4                --  2 or greater
-Game.margin     = 8                --  Margin size
+Game.gridSize = 4   --  Must be 2 or greater
+Game.margin   = 8   --  Margin size
 
 
 
@@ -19,21 +17,21 @@ Game.margin     = 8                --  Margin size
 --  Dependencies
 --
 local Square = require("square")
-local Font = require("font")
+local Font   = require("font")
+local color  = require("colors")
 
 
 
-Game.init = function (self, gamedata, size, margin, bg, fontColor)
+Game.init = function (self, gamedata, size, margin)
     --
     --  Initialize the grid
     --
 
-    --  Set background color
-    self.bg = bg or Game.bgColor
+    --  Set window background
+    love.graphics.setBackgroundColor(color("bg"))
 
     --  Load pixel font
-    self.font      = Font:new()
-    self.fontColor = fontColor or Game.fontColor
+    self.font = Font:new()
     self.font:set()
 
     if not gamedata then
@@ -266,15 +264,11 @@ Game.draw = function (self)
             --  Get coords and dimensions
             local oX,oY = self:getX(x), self:getY(y)
             local w,h   = self.sqSize - 1, self.sqSize - 1
-            --  Draw the grid background
-            love.graphics.setColor(self.bg)
-            love.graphics.rectangle("fill", oX, oY, w, h)
             --  Draw squares
             local sq = self.grid[y][x]
             if sq then
                 sq:draw(oX, oY, w, h)
                 --  Print values centered within square
-                love.graphics.setColor(self.fontColor)
                 local n = sq.n
                 if n ~= 0 then
                     n = tostring(n)
@@ -282,8 +276,9 @@ Game.draw = function (self)
                     local fh = self.font.h
                     local fx = math.floor(oX + (w / 2)) - math.floor(fw / 2) - 1
                     local fy = math.floor(oY + (h / 2)) - math.floor(fh / 2)
-                    --  Print in "bold"
-                    for i=0,2 do love.graphics.print(n, fx + i, fy) end
+                    --  Print values
+                    love.graphics.setColor(color("fg"))
+                    love.graphics.print(n, fx, fy)
                 end
             end
         end
