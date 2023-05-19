@@ -36,7 +36,6 @@ love.load = function (dt)
     --  Load a new game
     --
     game = Game:new()
-    fs = false
 end
 
 

@@ -8,9 +8,10 @@ local Game  = Class:new()
 --
 --  Grid defaults
 --
-Game.bgColor  = {1, 1, 1, 0.15}    --  Baxkground color
-Game.gridSize = 4                  --  2 or greater
-Game.margin   = 8                  --  Margin size
+Game.bgColor    = {1, 1, 1, 0.15}  --  Background color
+Game.fontColor  = {1, 1, 1}        --  Font color
+Game.gridSize   = 4                --  2 or greater
+Game.margin     = 8                --  Margin size
 
 
 
@@ -18,16 +19,22 @@ Game.margin   = 8                  --  Margin size
 --  Dependencies
 --
 local Square = require("square")
+local Font = require("font")
 
 
 
-Game.init = function (self, gamedata, size, margin, bg)
+Game.init = function (self, gamedata, size, margin, bg, fontColor)
     --
     --  Initialize the grid
     --
 
     --  Set background color
     self.bg = bg or Game.bgColor
+
+    --  Load pixel font
+    self.font      = Font:new()
+    self.fontColor = fontColor or Game.fontColor
+    self.font:set()
 
     if not gamedata then
         --  Start a new game with provided params or game defaults
@@ -241,6 +248,18 @@ Game.draw = function (self)
             local sq = self.grid[y][x]
             if sq then
                 sq:draw(oX, oY, w, h)
+                --  Print values centered within square
+                love.graphics.setColor(self.fontColor)
+                local n = sq.n
+                if n ~= 0 then
+                    n = tostring(n)
+                    local fw = #n * (self.font.w + self.font.k)
+                    local fh = self.font.h
+                    local fx = math.floor(oX + (w / 2)) - math.floor(fw / 2) - 1
+                    local fy = math.floor(oY + (h / 2)) - math.floor(fh / 2)
+                    --  Print in "bold"
+                    for i=0,2 do love.graphics.print(n, fx + i, fy) end
+                end
             end
         end
     end
