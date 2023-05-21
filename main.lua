@@ -46,6 +46,7 @@ love.load = function (dt)
     --
     --  Load a new game
     --
+    love.window.setMode(wW, wH, windowMode(fullscreen))
     game = Game:new()
 end
 
