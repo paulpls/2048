@@ -17,11 +17,14 @@ local hsv = function (h, s, v)
     --
     --  HSV color modelling
     --
-    h = h / 360
+    --  0 <= h <= 360
+    --  0 <= s <= 100
+    --  0 <= v <= 100
+    --
+    h = h / 60
     s = s / 100
     v = v / 100
     if s <= 0 then return {v, v, v} end
-    h = h * 6
     local c = v * s
     local x = c * (1 - math.abs((h % 2) - 1))
     local m = v - c
@@ -30,7 +33,7 @@ local hsv = function (h, s, v)
         {x, c, 0},
         {0, c, x},
         {0, x, c},
-        {x, 0, x},
+        {x, 0, c},
         {c, 0, x}
     }
     h = 1 + math.floor(h) % 6
@@ -50,7 +53,7 @@ end
 local colors = {
     ["bg"]  = {250  , 54.5, 4.3 }, -- Window background
     ["fg"]  = {240  , 10.1, 92.9}, -- Window foreground (text, etc)
-    ["sq"]  = {257.1, 38.9, 7.1 }, -- Empty square color
+    [0]     = {257.1, 38.9, 7.1 }, -- Empty square color
     [v(1)]  = {245.5, 41.1, 42  }, -- 2
     [v(2)]  = {235.1, 45.2, 52.9}, -- 4
     [v(3)]  = {226.9, 41.3, 60.8}, -- 8
@@ -71,7 +74,13 @@ local colors = {
 --
 --  Return a function that gives a color by value, or black if undefined
 --
-return function (n) return hsv(unpack(colors[n])) or hsv(250, 54.5, 4.3) end
+return function (n)
+    if colors[n] then
+        return hsv(unpack(colors[n]))
+    else
+        return hsv(250, 54.5, 4.3)
+    end
+end
 
 
 
