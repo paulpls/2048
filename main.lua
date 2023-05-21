@@ -27,7 +27,18 @@ local Game = require("game")
 --
 --  Locals
 --
-local fullscreen = false
+local wMinW, wMinH = 600, 400
+local wW, wH       = love.graphics.getDimensions()
+local fullscreen   = false
+local windowMode   = function (fullscreen)
+    return {
+        ["fullscreen"] = fullscreen,
+        ["resizable"]  = true,
+        ["borderless"] = true,
+        ["minwidth"]   = wMinW,
+        ["minheight"]  = wMinH,
+    }
+end
 
 
 
@@ -70,7 +81,7 @@ love.keypressed = function (key)
     --  Toggle fullscreen
     elseif key == "f" then
         fullscreen = not fullscreen
-        love.window.setFullscreen(fullscreen)
+        love.window.setMode(wW, wH, windowMode(fullscreen))
     --  Restart
     elseif key == "r" then
         game:restart()
